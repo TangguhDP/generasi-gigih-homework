@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { FlatButton } from "../components/Buttons";
+import ImgCover from "../components/ImgCover";
+import NameAlbum from "../components/NameAlbum";
+import NameArtist from "../components/NameArtist";
+import TitleSong from "../components/TitleSong";
 import data from "../data/Data";
 
 export default function Playlist() {
@@ -23,18 +28,14 @@ export default function Playlist() {
           }}
         >
           <h1>Create Playlist</h1>
-          <img
-            alt="songs"
-            style={{
-              height: state.album.images[0].height - 300,
-              width: "auto",
-            }}
-            src={state.album.images[0].url}
+          <ImgCover
+            height={state.album.images[0].height}
+            url={state.album.images[0].url}
           />
-          <p id="showTitle">{state.name}</p>
-          <p id="showArtis">{state.artists[0].name}</p>
-          <p id="showAlbum">{state.album.name}</p>
-          <button type="button">Select</button>
+          <TitleSong name={state.name} />
+          <NameArtist name={state.artists[0].name} />
+          <NameAlbum name={state.album.name} />
+          <FlatButton name="Select" />
         </div>
       )}
     </>
