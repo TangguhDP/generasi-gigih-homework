@@ -1,11 +1,12 @@
 import React from "react";
-import { FlatButton } from "../components/Buttons";
-import ImgCover from "../components/ImgCover";
-import NameAlbum from "../components/NameAlbum";
-import NameArtist from "../components/NameArtist";
-import TitleSong from "../components/TitleSong";
 
-export default function Playlist(props) {
+import { FlatButton } from "./Buttons";
+import ImgCover from "./ImgCover";
+import NameAlbum from "./NameAlbum";
+import NameArtist from "./NameArtist";
+import TitleSong from "./TitleSong";
+
+export default function Track(props) {
   return (
     <div
       style={{
