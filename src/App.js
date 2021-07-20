@@ -1,23 +1,22 @@
+import Landing from "./pages/Landing";
 import Playlist from "./pages/Playlist";
-import Data from "./data/ManyData";
+
 import "./App.css";
+import { useState } from "react";
 
 function App() {
-  return Data.map((obj, i) => {
-    return (
-      <>
-        <h1 style={{ textAlign: "center" }}>Create Playlist</h1>
-        <Playlist
-          key={i}
-          height={obj.album.images[0].height}
-          imgUrl={obj.album.images[0].url}
-          title={obj.name}
-          artistName={obj.artists[0].name}
-          albumName={obj.album.name}
-        />
-      </>
-    );
-  });
+  const [isLogin, setIsLogin] = useState({ status: false, params: {} });
+  const getAccessToken = (params) => {
+    if (params?.access_token) {
+      setIsLogin({ status: true, params: params });
+    }
+  };
+
+  return isLogin.status ? (
+    <Playlist params={isLogin.params} />
+  ) : (
+    <Landing onLogin={getAccessToken} />
+  );
 }
 
 export default App;

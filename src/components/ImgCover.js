@@ -5,7 +5,7 @@ export default function ImgCover(props) {
     <img
       alt="songs"
       style={{
-        height: props.height - 300,
+        height: props.height - 450,
         width: "auto",
       }}
       src={props.url}
