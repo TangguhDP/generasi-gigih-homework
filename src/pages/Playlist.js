@@ -4,6 +4,7 @@ import Track from "../components/Track";
 export default function Playlist(props) {
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState("");
+  const [trackSelected, setTrackSelected] = useState([]);
 
   const getSearchResult = () => {
     fetch(`https://api.spotify.com/v1/search?q=${search}&type=track`, {
@@ -11,6 +12,15 @@ export default function Playlist(props) {
     })
       .then((response) => response.json())
       .then((response) => setResult(response.tracks));
+  };
+
+  const onDeselect = (trackID) => {
+    const newTrackSelected = trackSelected.filter((track) => track !== trackID);
+    setTrackSelected([...newTrackSelected]);
+  };
+
+  const onSelect = (trackID) => {
+    setTrackSelected([...trackSelected, trackID]);
   };
 
   return (
@@ -48,6 +58,9 @@ export default function Playlist(props) {
                 title={track.name}
                 artistName={track.artists[0].name}
                 albumName={track.album.name}
+                onSelected={() => onSelect(track.id)}
+                selected={trackSelected.some((trackID) => trackID === track.id)}
+                onDeselected={() => onDeselect(track.id)}
               />
             );
           })}
