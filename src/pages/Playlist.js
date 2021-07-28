@@ -1,10 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import FormAddPlaylist from "../components/FormAddPlaylist";
+import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
 
 export default function Playlist(props) {
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState("");
-  const [trackSelected, setTrackSelected] = useState([]);
+  const [user, setUser] = useState({});
+  const [tracksSelected, setTracksSelected] = useState([]);
+  const [playlistForm, setPlaylistForm] = useState({
+    title: "",
+    description: "",
+  });
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const getUser = () => {
+    fetch(`https://api.spotify.com/v1/me`, {
+      headers: { Authorization: "Bearer " + props.params.access_token },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        setUser(response);
+      });
+  };
 
   const getSearchResult = () => {
     fetch(`https://api.spotify.com/v1/search?q=${search}&type=track`, {
@@ -14,13 +35,70 @@ export default function Playlist(props) {
       .then((response) => setResult(response.tracks));
   };
 
-  const onDeselect = (trackID) => {
-    const newTrackSelected = trackSelected.filter((track) => track !== trackID);
-    setTrackSelected([...newTrackSelected]);
+  const createPlaylist = () => {
+    return fetch(`https://api.spotify.com/v1/users/${user.id}/playlists`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + props.params.access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: playlistForm.title,
+        description: playlistForm.description,
+        public: false,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((err) => alert(err));
   };
 
-  const onSelect = (trackID) => {
-    setTrackSelected([...trackSelected, trackID]);
+  const addTrackToPlaylist = (playlistID) => {
+    fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + props.params.access_token,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        uris: tracksSelected,
+      }),
+    })
+      .then((response) => response.json())
+      .catch((err) => alert(err));
+  };
+
+  const onDeselect = (trackURI) => {
+    const newTracksSelected = tracksSelected.filter(
+      (track) => track !== trackURI
+    );
+    setTracksSelected([...newTracksSelected]);
+  };
+
+  const onSelect = (trackURI) => {
+    setTracksSelected([...tracksSelected, trackURI]);
+  };
+
+  const handleOnChange = (input) => {
+    const { name, value } = input.target;
+    setPlaylistForm({ ...playlistForm, [name]: value });
+  };
+
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    const playlist = await createPlaylist();
+    addTrackToPlaylist(playlist.id);
+    alert("Playlist created");
+    clearState();
+  };
+
+  const clearState = () => {
+    setTracksSelected([]);
+    setPlaylistForm({
+      title: "",
+      description: "",
+    });
   };
 
   return (
@@ -44,6 +122,17 @@ export default function Playlist(props) {
           Search
         </button>
       </div>
+      <center>
+        <h2>Create your playlist</h2>
+        <div className="header-wrapper">
+          <FormAddPlaylist
+            data={playlistForm}
+            handleOnSubmit={handleOnSubmit}
+            handleOnChange={handleOnChange}
+          />
+          <ListTracks tracksSelected={tracksSelected} />
+        </div>
+      </center>
       {result ? (
         <>
           <h3 style={{ textAlign: "center" }}>
@@ -58,9 +147,11 @@ export default function Playlist(props) {
                 title={track.name}
                 artistName={track.artists[0].name}
                 albumName={track.album.name}
-                onSelected={() => onSelect(track.id)}
-                selected={trackSelected.some((trackID) => trackID === track.id)}
-                onDeselected={() => onDeselect(track.id)}
+                onSelected={() => onSelect(track.uri)}
+                selected={tracksSelected.some(
+                  (trackURI) => trackURI === track.uri
+                )}
+                onDeselected={() => onDeselect(track.uri)}
               />
             );
           })}

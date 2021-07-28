@@ -48,7 +48,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.track-info{
+.track-info {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -56,3 +56,41 @@
   margin-left: 0.5em;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  padding: 1em 2em;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1em;
+}
+
+.label-text {
+  margin-bottom: 0.5em;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1em;
+}
+
+.list-tracks {
+  max-height: 231px;
+  overflow-y: scroll;
+  text-align: left;
+}
