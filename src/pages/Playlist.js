@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import FormAddPlaylist from "../components/FormAddPlaylist";
 import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
@@ -12,14 +13,16 @@ export default function Playlist(props) {
     title: "",
     description: "",
   });
+  const user_access_token = useSelector((state) => state.user.access_token)
 
   useEffect(() => {
     getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getUser = () => {
     fetch(`https://api.spotify.com/v1/me`, {
-      headers: { Authorization: "Bearer " + props.params.access_token },
+      headers: { Authorization: "Bearer " + user_access_token },
     })
       .then((response) => response.json())
       .then((response) => {
@@ -29,7 +32,7 @@ export default function Playlist(props) {
 
   const getSearchResult = () => {
     fetch(`https://api.spotify.com/v1/search?q=${search}&type=track`, {
-      headers: { Authorization: "Bearer " + props.params.access_token },
+      headers: { Authorization: "Bearer " + user_access_token },
     })
       .then((response) => response.json())
       .then((response) => setResult(response.tracks));
@@ -39,7 +42,7 @@ export default function Playlist(props) {
     return fetch(`https://api.spotify.com/v1/users/${user.id}/playlists`, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + props.params.access_token,
+        Authorization: "Bearer " + user_access_token,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
@@ -57,7 +60,7 @@ export default function Playlist(props) {
     fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + props.params.access_token,
+        Authorization: "Bearer " + user_access_token,
         "Content-Type": "application/json",
         Accept: "application/json",
       },
