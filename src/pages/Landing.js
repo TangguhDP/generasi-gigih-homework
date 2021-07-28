@@ -1,8 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { FlatButton } from "../components/Buttons";
+import { setAccessToken } from "../data/userSlice";
 
 export default function Landing(props) {
+  const dispatch = useDispatch();
   const generateRandomString = (length) => {
     var text = "";
     var possible =
@@ -38,6 +41,7 @@ export default function Landing(props) {
     while ((e = r.exec(q))) {
       hashParams[e[1]] = decodeURIComponent(e[2]);
     }
+    dispatch(setAccessToken(hashParams.access_token));
     props.onLogin(hashParams);
   };
 
