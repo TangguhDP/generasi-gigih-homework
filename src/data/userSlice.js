@@ -7,7 +7,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     setAccessToken: (state, action) => {
-      state.access_token += action.payload;
+      state.access_token = action.payload;
     },
   },
 });

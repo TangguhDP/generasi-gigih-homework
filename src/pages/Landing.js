@@ -1,11 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import { FlatButton } from "../components/Buttons";
-import { setAccessToken } from "../data/userSlice";
 
-export default function Landing(props) {
-  const dispatch = useDispatch();
+export default function Landing() {
   const generateRandomString = (length) => {
     var text = "";
     var possible =
@@ -32,22 +29,6 @@ export default function Landing(props) {
     url += "&state=" + encodeURIComponent(state);
     window.location = url;
   };
-
-  const getHashParams = () => {
-    let hashParams = {};
-    let e,
-      r = /([^&;=]+)=?([^&;]*)/g,
-      q = window.location.hash.substring(1);
-    while ((e = r.exec(q))) {
-      hashParams[e[1]] = decodeURIComponent(e[2]);
-    }
-    dispatch(setAccessToken(hashParams.access_token));
-    props.onLogin(hashParams);
-  };
-
-  useEffect(() => {
-    getHashParams();
-  }, []);
 
   return (
     <div className="center">
