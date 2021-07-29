@@ -4,7 +4,7 @@ import FormAddPlaylist from "../components/FormAddPlaylist";
 import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
 
-export default function Playlist(props) {
+export default function Playlist() {
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState("");
   const [user, setUser] = useState({});
@@ -13,12 +13,12 @@ export default function Playlist(props) {
     title: "",
     description: "",
   });
-  const user_access_token = useSelector((state) => state.user.access_token)
+  const user_access_token = useSelector((state) => state.user.access_token);
 
   useEffect(() => {
     getUser();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user_access_token !== ""]);
 
   const getUser = () => {
     fetch(`https://api.spotify.com/v1/me`, {
