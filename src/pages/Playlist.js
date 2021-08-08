@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import FormAddPlaylist from "../components/FormAddPlaylist";
 import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
 
 export default function Playlist() {
+  const history = useHistory();
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState("");
   const [user, setUser] = useState({});
@@ -107,6 +109,7 @@ export default function Playlist() {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Playlist Search</h1>
+      <button onClick={() => history.push("/")}>Back</button>
       <div className="row-center">
         <input
           value={search}
