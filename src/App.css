@@ -42,7 +42,9 @@
   align-items: center;
   flex-direction: row;
   margin-bottom: 2em;
-  width: 50%;
+  max-width: 80%;
+  min-width: 80%;
+  height: fit-content;
   padding: 1em;
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -93,4 +95,9 @@ textarea {
   max-height: 231px;
   overflow-y: scroll;
   text-align: left;
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
