@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import FormAddPlaylist from "../components/FormAddPlaylist";
 import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
 
 export default function Playlist() {
+  const history = useHistory();
   const [result, setResult] = useState(null);
   const [search, setSearch] = useState("");
   const [user, setUser] = useState({});
@@ -107,6 +109,12 @@ export default function Playlist() {
   return (
     <>
       <h1 style={{ textAlign: "center" }}>Playlist Search</h1>
+      <button
+        style={{ position: "absolute", top: 10, left: 10 }}
+        onClick={() => history.push("/")}
+      >
+        Back
+      </button>
       <div className="row-center">
         <input
           value={search}
@@ -141,23 +149,25 @@ export default function Playlist() {
           <h3 style={{ textAlign: "center" }}>
             Showing {result.items.length} tracks
           </h3>
-          {result.items.map((track, i) => {
-            return (
-              <Track
-                key={i}
-                height={track.album.images[0].height}
-                imgUrl={track.album.images[0].url}
-                title={track.name}
-                artistName={track.artists[0].name}
-                albumName={track.album.name}
-                onSelected={() => onSelect(track.uri)}
-                selected={tracksSelected.some(
-                  (trackURI) => trackURI === track.uri
-                )}
-                onDeselected={() => onDeselect(track.uri)}
-              />
-            );
-          })}
+          <div className='grid-view'>
+            {result.items.map((track, i) => {
+              return (
+                <Track
+                  key={i}
+                  height={track.album.images[0].height}
+                  imgUrl={track.album.images[0].url}
+                  title={track.name}
+                  artistName={track.artists[0].name}
+                  albumName={track.album.name}
+                  onSelected={() => onSelect(track.uri)}
+                  selected={tracksSelected.some(
+                    (trackURI) => trackURI === track.uri
+                  )}
+                  onDeselected={() => onDeselect(track.uri)}
+                />
+              );
+            })}
+          </div>
         </>
       ) : (
         <h3 style={{ textAlign: "center" }}>No Tracks Show</h3>

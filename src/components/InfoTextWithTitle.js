@@ -7,6 +7,7 @@ export default function InfoTextWithTitle({ title, value }) {
         display: "flex",
         flexDirection: "column",
         padding: "0.5em 0",
+        maxWidth: '80%',
       }}
     >
       <span style={{ fontSize: 18, fontWeight: "bold" }}>{title}</span>
