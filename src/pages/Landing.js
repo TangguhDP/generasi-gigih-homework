@@ -31,9 +31,9 @@ export default function Landing() {
   };
 
   return (
-    <div className="center">
+    <div className="flex flex-row justify-center items-center h-screen">
       <FlatButton
-        className="green-button"
+        className="py-2 px-4 bg-green-700 text-white shadow-lg border-2 rounded-lg cursor-pointer text-lg font-semibold"
         value="Login Spotify"
         onClick={() => loginSpotify()}
       />
