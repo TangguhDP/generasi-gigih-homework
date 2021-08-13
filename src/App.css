@@ -1,14 +1,6 @@
 
 .green-button {
-  padding: 0.5em 1.5em;
-  background-color: rgb(26, 167, 26);
-  border: 0;
-  color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: large;
-  font-weight: 800;
+  @apply py-2 px-4 bg-green-700 text-white shadow-lg border-2 rounded-lg cursor-pointer text-lg font-semibold;
 }
 
 .center {
@@ -20,12 +12,13 @@
 }
 
 .input-text {
-  font-size: 20px;
   margin-right: 0.5em;
+  @apply border-2 border-black rounded-sm p-1 text-lg
 }
 
 .search-button {
   padding: 0.5em;
+  @apply border-2 bg-gray-50 shadow-lg border-black p-1 text-lg rounded-sm
 }
 
 .row-center {
