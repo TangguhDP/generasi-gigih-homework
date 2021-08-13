@@ -1,5 +1,5 @@
 import Landing from "./pages/Landing";
-import Playlist from "./pages/Playlist";
+import Playlist from "./pages/Playlist.tsx";
 
 import "./App.css";
 import {

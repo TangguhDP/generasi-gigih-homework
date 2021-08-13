@@ -4,18 +4,21 @@ import { useHistory } from "react-router-dom";
 import FormAddPlaylist from "../components/FormAddPlaylist";
 import ListTracks from "../components/ListTracks";
 import Track from "../components/Track";
+import { UserGlobal } from "../types";
 
 export default function Playlist() {
   const history = useHistory();
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<any>(null);
   const [search, setSearch] = useState("");
-  const [user, setUser] = useState({});
-  const [tracksSelected, setTracksSelected] = useState([]);
+  const [user, setUser] = useState<any>({});
+  const [tracksSelected, setTracksSelected] = useState<Array<string>>([]);
   const [playlistForm, setPlaylistForm] = useState({
     title: "",
     description: "",
   });
-  const user_access_token = useSelector((state) => state.user.access_token);
+  const user_access_token = useSelector(
+    (state: { user: UserGlobal }) => state.user.access_token
+  );
 
   useEffect(() => {
     getUser();
@@ -58,7 +61,7 @@ export default function Playlist() {
       .catch((err) => alert(err));
   };
 
-  const addTrackToPlaylist = (playlistID) => {
+  const addTrackToPlaylist = (playlistID: string) => {
     fetch(`https://api.spotify.com/v1/playlists/${playlistID}/tracks`, {
       method: "POST",
       headers: {
@@ -74,23 +77,23 @@ export default function Playlist() {
       .catch((err) => alert(err));
   };
 
-  const onDeselect = (trackURI) => {
+  const onDeselect = (trackURI: string) => {
     const newTracksSelected = tracksSelected.filter(
       (track) => track !== trackURI
     );
     setTracksSelected([...newTracksSelected]);
   };
 
-  const onSelect = (trackURI) => {
+  const onSelect = (trackURI: string) => {
     setTracksSelected([...tracksSelected, trackURI]);
   };
 
-  const handleOnChange = (input) => {
+  const handleOnChange = (input: any) => {
     const { name, value } = input.target;
     setPlaylistForm({ ...playlistForm, [name]: value });
   };
 
-  const handleOnSubmit = async (e) => {
+  const handleOnSubmit = async (e: HTMLFormElement) => {
     e.preventDefault();
     const playlist = await createPlaylist();
     addTrackToPlaylist(playlist.id);
@@ -108,14 +111,14 @@ export default function Playlist() {
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}>Playlist Search</h1>
+      <h1 className="text-2xl font-bold text-center">Playlist Search</h1>
       <button
-        style={{ position: "absolute", top: 10, left: 10 }}
+        className="absolute top-2 left-2 border-2 border-black rounded-sm py-1 px-4"
         onClick={() => history.push("/")}
       >
         Back
       </button>
-      <div className="row-center">
+      <div className="row-center mt-4">
         <input
           value={search}
           onChange={(e) => {
@@ -133,7 +136,7 @@ export default function Playlist() {
           Search
         </button>
       </div>
-      <center>
+      <div className="flex flex-col justify-center text-center">
         <h2>Create your playlist</h2>
         <div className="header-wrapper">
           <FormAddPlaylist
@@ -143,14 +146,14 @@ export default function Playlist() {
           />
           <ListTracks tracksSelected={tracksSelected} />
         </div>
-      </center>
+      </div>
       {result ? (
         <>
-          <h3 style={{ textAlign: "center" }}>
-            Showing {result.items.length} tracks
+          <h3 className="text-center my-4 font-bold">
+            Showing {result?.items?.length} tracks
           </h3>
-          <div className='grid-view'>
-            {result.items.map((track, i) => {
+          <div className="grid-view">
+            {result.items.map((track: any, i: number) => {
               return (
                 <Track
                   key={i}
